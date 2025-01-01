@@ -9,6 +9,7 @@ export default function Index() {
 				justifyContent: 'center',
 				alignItems: 'center',
 			}}>
+			<Text className='font-bold text-red-200 my-10'>Home</Text>
 			<Link href='/sign-in'>Sign In</Link>
 			<Link href='/explore'>Explore</Link>
 			<Link href='/profile'>Profile</Link>
