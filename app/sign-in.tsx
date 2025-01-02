@@ -15,7 +15,7 @@ import icons from '@/constants/icons';
 import images from '@/constants/images';
 
 const SignIn = () => {
-	const { refetch, loading, isLoggedIn } = useGlobalContext();
+	const { refetch: loginUser, loading, isLoggedIn } = useGlobalContext();
 
 	if (!loading && isLoggedIn) return <Redirect href='/' />;
 
@@ -23,7 +23,7 @@ const SignIn = () => {
 		const result = await login();
 
 		if (result) {
-			refetch();
+			loginUser();
 		} else {
 			Alert.alert('Error', 'An error occurred while trying to login');
 		}
