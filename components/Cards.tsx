@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Pressable } from 'react-native';
 
 import icons from '@/constants/icons';
 import images from '@/constants/images';
@@ -9,7 +9,7 @@ interface CardProps {
 
 export const FeaturedCard = ({ onPress }: CardProps) => {
 	return (
-		<TouchableOpacity
+		<Pressable
 			onPress={onPress}
 			className='flex flex-col items-start w-60 h-80 relative'>
 			<Image source={images.japan} className='size-full rounded-2xl' />
@@ -33,13 +33,13 @@ export const FeaturedCard = ({ onPress }: CardProps) => {
 					<Image source={icons.heart} className='size-5' />
 				</View>
 			</View>
-		</TouchableOpacity>
+		</Pressable>
 	);
 };
 
 export const Card = ({ onPress }: CardProps) => {
 	return (
-		<TouchableOpacity
+		<Pressable
 			onPress={onPress}
 			className='bg-white w-full flex-1 mt-4 px-3 py-4 shadow-lg shadow-black-100/70 rounded-lg relative'>
 			<View className='flex flex-row items-center  absolute px-2 top-5 right-5 bg-white/90 p-1 rounded-full z-50'>
@@ -58,6 +58,6 @@ export const Card = ({ onPress }: CardProps) => {
 					<Image source={icons.heart} className='size-5 mr-2' tintColor='#191d31' />
 				</View>
 			</View>
-		</TouchableOpacity>
+		</Pressable>
 	);
 };
