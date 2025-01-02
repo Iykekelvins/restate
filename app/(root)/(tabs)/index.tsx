@@ -1,10 +1,16 @@
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import {
+	FlatList,
+	Image,
+	Pressable,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Card, FeaturedCard } from '@/components/Cards';
 import { useGlobalContext } from '@/lib/global-provider';
 
 import icons from '@/constants/icons';
-import images from '@/constants/images';
 import Search from '@/components/Search';
 import Filters from '@/components/Filters';
 
