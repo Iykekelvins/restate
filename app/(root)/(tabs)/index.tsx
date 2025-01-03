@@ -1,4 +1,5 @@
 import {
+	ActivityIndicator,
 	FlatList,
 	Image,
 	Pressable,
@@ -6,6 +7,10 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useAppwrite } from '@/lib/useAppwrite';
+import { getLatestProperties, getProperties } from '@/lib/appwrite';
+import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Card, FeaturedCard } from '@/components/Cards';
 import { useGlobalContext } from '@/lib/global-provider';
@@ -13,20 +18,63 @@ import { useGlobalContext } from '@/lib/global-provider';
 import icons from '@/constants/icons';
 import Search from '@/components/Search';
 import Filters from '@/components/Filters';
+import NoResults from '@/components/NoResults';
 
 export default function Index() {
 	const { user } = useGlobalContext();
+	const params = useLocalSearchParams<{ query?: string; filter?: string }>();
+
+	const { data: latestProperties, loading: latestPropertiesLoading } = useAppwrite({
+		fn: getLatestProperties,
+	});
+
+	const {
+		data: properties,
+		loading,
+		refetch,
+	} = useAppwrite({
+		fn: getProperties,
+		params: {
+			query: params.query!,
+			filter: params.filter!,
+			limit: 6,
+		},
+		skip: true,
+	});
+
+	const handleCardPress = (id: string) =>
+		router.push({
+			pathname: '/properties/[id]',
+			params: { id },
+		});
+
+	useEffect(() => {
+		refetch({
+			query: params.query!,
+			filter: params?.query ? '' : params.filter!,
+			limit: 6,
+		});
+	}, [params.filter, params.query]);
 
 	return (
 		<SafeAreaView className='bg-white h-full'>
 			<FlatList
-				data={[1, 2]}
-				renderItem={({ item }) => <Card />}
-				keyExtractor={(item) => item.toString()}
+				data={properties}
+				renderItem={({ item }) => (
+					<Card item={item} onPress={() => handleCardPress(item.$id)} />
+				)}
+				keyExtractor={(item) => item.$id.toString()}
 				numColumns={2}
 				contentContainerClassName='pb-32'
 				columnWrapperClassName='flex gap-5 px-5'
 				showsVerticalScrollIndicator={false}
+				ListEmptyComponent={
+					loading ? (
+						<ActivityIndicator className='text-primary-300 mt-5' size='large' />
+					) : (
+						<NoResults />
+					)
+				}
 				ListHeaderComponent={
 					<View className='px-5'>
 						<View className='flex flex-row items-center justify-between mt-5'>
@@ -62,15 +110,26 @@ export default function Index() {
 								</TouchableOpacity>
 							</View>
 
-							<FlatList
-								data={[1, 2, 3]}
-								renderItem={({ item }) => <FeaturedCard />}
-								keyExtractor={(item) => item.toString()}
-								horizontal
-								showsHorizontalScrollIndicator={false}
-								contentContainerClassName='flex gap-5 mt-5'
-								bounces={false}
-							/>
+							{latestPropertiesLoading ? (
+								<ActivityIndicator className='text-primary-300 mt-5' size='large' />
+							) : !latestProperties || latestProperties.length === 0 ? (
+								<NoResults />
+							) : (
+								<FlatList
+									data={latestProperties}
+									renderItem={({ item }) => (
+										<FeaturedCard
+											item={item}
+											onPress={() => handleCardPress(item.$id)}
+										/>
+									)}
+									keyExtractor={(item) => item.$id.toString()}
+									horizontal
+									showsHorizontalScrollIndicator={false}
+									contentContainerClassName='flex gap-5 mt-5'
+									bounces={false}
+								/>
+							)}
 						</View>
 
 						<View className='my-5'>

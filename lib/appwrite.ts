@@ -130,9 +130,13 @@ export async function getProperties({
 		}
 
 		if (query) {
-			buildQuery.push(Query.search('name', query)),
-				buildQuery.push(Query.search('address', query)),
-				buildQuery.push(Query.search('type', query));
+			buildQuery.push(
+				Query.or([
+					Query.search('name', query),
+					Query.search('type', query),
+					Query.search('address', query),
+				])
+			);
 		}
 
 		if (limit) {

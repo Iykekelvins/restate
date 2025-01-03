@@ -17,6 +17,7 @@ const Search = () => {
 
 	const handleSearch = (value: string) => {
 		setSearch(value);
+		debouncedSearch(value);
 	};
 
 	return (
@@ -27,7 +28,7 @@ const Search = () => {
 					value={search}
 					onChangeText={handleSearch}
 					placeholder='Search for anything'
-					className='text-sm font-rubik text-black-300 ml-2'
+					className='text-sm font-rubik text-black-300 ml-2 w-full'
 					placeholderTextColor='#666876'
 				/>
 			</View>
