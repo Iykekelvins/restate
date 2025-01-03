@@ -2,7 +2,6 @@ import {
 	ActivityIndicator,
 	FlatList,
 	Image,
-	Pressable,
 	StatusBar,
 	Text,
 	TouchableOpacity,
@@ -10,10 +9,10 @@ import {
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useAppwrite } from '@/lib/useAppwrite';
-import { getLatestProperties, getProperties } from '@/lib/appwrite';
+import { getProperties } from '@/lib/appwrite';
 import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Card, FeaturedCard } from '@/components/Cards';
+import { Card } from '@/components/Cards';
 
 import icons from '@/constants/icons';
 import Search from '@/components/Search';

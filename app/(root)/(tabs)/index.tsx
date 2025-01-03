@@ -2,7 +2,6 @@ import {
 	ActivityIndicator,
 	FlatList,
 	Image,
-	Pressable,
 	StatusBar,
 	Text,
 	TouchableOpacity,
