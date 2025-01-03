@@ -3,6 +3,7 @@ import {
 	FlatList,
 	Image,
 	Pressable,
+	StatusBar,
 	Text,
 	TouchableOpacity,
 	View,
@@ -148,6 +149,7 @@ export default function Index() {
 					</View>
 				}
 			/>
+			<StatusBar />
 		</SafeAreaView>
 	);
 }
